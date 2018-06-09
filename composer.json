@@ -1,0 +1,28 @@
+{
+    "name": "siewwp/laravel-service-consumer",
+    "description": "laravel server-to-server service consumer with HMAC authentication",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "WP Siew",
+            "email": "siewwp.and@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.3",
+        "acquia/http-hmac-php": "^4.0",
+        "symfony/psr-http-message-bridge": "~1.0",
+        "zendframework/zend-diactoros": "^1.7"
+    },
+    "require-dev": {
+        "illuminate/http": "~5.3",
+        "illuminate/routing": "~5.3",
+        "vlucas/phpdotenv": "~2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Siewwp\\LaravelServiceConsumer\\": "src/"
+        }
+    }
+}
