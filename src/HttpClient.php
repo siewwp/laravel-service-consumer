@@ -30,7 +30,7 @@ class HttpClient extends \GuzzleHttp\Client implements HttpClientContract
         parent::__construct(array_merge($this->defaultConfigs(), $config));
     }
 
-    protected function getHmacHandler()
+    public function getHmacHandler()
     {
         $middleware = new HmacAuthMiddleware($this->key);
         $stack = HandlerStack::create();
@@ -54,7 +54,7 @@ class HttpClient extends \GuzzleHttp\Client implements HttpClientContract
         }, 1000);
     }
 
-    protected function defaultConfigs()
+    public function defaultConfigs()
     {
         return [
             'handler' => $this->getHmacHandler(),
