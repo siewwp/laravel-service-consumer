@@ -29,10 +29,11 @@ to the webhook controller like so:
 namespace App\Http\Controllers;
 
 use Siewwp\LaravelServiceConsumer\Http\Controllers\Webhook;
+use App\Http\Controllers\Controller;
 
-class InvoiceController extends BaseController
+class InvoiceController extends Controller
 {
-    public function handleInvoicePaid() {
+    public function handleInvoicePaid($payload) {
         // ...
     }
 }
@@ -48,11 +49,11 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Siewwp\LaravelServiceConsumer\HandleWebhook;
 
-class InvoiceController extends BaseController
+class InvoiceController extends Controller
 {
     use HandleWebhook;
 
-    public function handleInvoicePaid() {
+    public function handleInvoicePaid($payload) {
         // ...
     }
 }
