@@ -1,6 +1,6 @@
 # Laravel hmac http
 
-Server-to-server communication hmac authorization helper
+Server-to-server service consuming with hmac authentication.
 
 ## Installation
 
@@ -24,6 +24,8 @@ If the service host is notifying event using webhook, you may define your webhoo
 to the webhook controller like so: 
 
 ```php
+<?php
+
 namespace App\Http\Controllers;
 
 use Siewwp\LaravelServiceConsumer\Http\Controllers\Webhook;
@@ -39,6 +41,8 @@ class InvoiceController extends BaseController
 Or you can use the `Siewwp\LaravelServiceConsumer\HandleWebhook` trait in your controller 
 
 ```php
+<?php
+
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
