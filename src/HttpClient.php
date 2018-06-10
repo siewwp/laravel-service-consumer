@@ -7,12 +7,16 @@ use Siewwp\LaravelServiceConsumer\Contracts\HttpClient as HttpClientContract;
 use Acquia\Hmac\Guzzle\HmacAuthMiddleware;
 use Acquia\Hmac\KeyInterface;
 use GuzzleHttp\HandlerStack;
+use Siewwp\LaravelServiceConsumer\Exceptions\UndefinedKeyException;
 
 class HttpClient extends \GuzzleHttp\Client implements HttpClientContract
 {
     public $retry;
     protected $key;
     protected $baseUri;
+    
+    /** @var HandlerStack */
+    protected $handler;
 
     /**
      * Registration constructor.
@@ -21,21 +25,32 @@ class HttpClient extends \GuzzleHttp\Client implements HttpClientContract
      * @param string $baseUri
      * @param int $retry
      */
-    public function __construct(array $config, KeyInterface $key, $baseUri = '', $retry = 1)
+    public function __construct(array $config, KeyInterface $key = null, $retry = 1)
     {
         $this->retry = $retry;
-        $this->key = $key;
-        $this->baseUri = $baseUri;
+
+        if (!isset($config['handler'])) {
+            $config['handler'] = HandlerStack::create();
+        }
+
+        $this->handler = $config['handler'];
         
-        parent::__construct(array_merge($this->defaultConfigs(), $config));
+        if (!is_null($key)) {
+            $this->setKey($key);
+        }
+        
+        parent::__construct($config);
     }
 
-    public function getHmacHandler()
+    public function pushMiddleware(callable $middleware)
     {
-        $middleware = new HmacAuthMiddleware($this->key);
-        $stack = HandlerStack::create();
-        $stack->push($middleware);
-        return $stack;
+        $this->handler->push($middleware);
+    }
+    
+    public function setKey(KeyInterface $key)
+    {
+        $this->key = $key;
+        $this->pushMiddleware(new HmacAuthMiddleware($this->key));
     }
 
     /**
@@ -47,22 +62,14 @@ class HttpClient extends \GuzzleHttp\Client implements HttpClientContract
      */
     public function request($method, $path = '', array $options = [])
     {
+        if (is_null($this->key)) {
+            throw new UndefinedKeyException;
+        }
+        
         return retry($this->retry, function () use ($method, $path, $options) {
             $response = parent::request($method, $path, $options);
 
             return json_decode((string)$response->getBody(), true);
         }, 1000);
-    }
-
-    public function defaultConfigs()
-    {
-        return [
-            'handler' => $this->getHmacHandler(),
-            'base_uri' => $this->baseUri,
-            'headers' => [
-                'Accept' => 'application/json',
-                'Service-Consumer-Id' => $this->key->getId()
-            ]
-        ];
     }
 }

@@ -3,12 +3,14 @@
 
 namespace Siewwp\LaravelServiceConsumer\Contracts;
 
+use Acquia\Hmac\KeyInterface;
+use GuzzleHttp\ClientInterface;
 
-interface HttpClient
+interface HttpClient extends ClientInterface
 {
-    public function getHmacHandler();
+    public function pushMiddleware(callable $middleware);
 
-    public function defaultConfigs();
-    
+    public function setKey(KeyInterface $key);
+
     public function request($method, $path = '', array $options = []);
 }
