@@ -9,11 +9,6 @@ use Illuminate\Http\Request;
 
 trait HandleWebhook
 {
-    public function __construct()
-    {
-        $this->middleware(Authenticate::class);
-    }
-
     /**
      * Handle a webhook call.
      *
