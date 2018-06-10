@@ -32,6 +32,10 @@ class HttpClient extends \GuzzleHttp\Client implements HttpClientContract
         if (!isset($config['handler'])) {
             $config['handler'] = HandlerStack::create();
         }
+        
+        if (!isset($config['headers']['Accept'])) {
+            $config['headers']['Accept'] = 'application/json';
+        }
 
         $this->handler = $config['handler'];
         
