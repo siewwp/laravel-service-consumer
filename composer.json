@@ -10,10 +10,9 @@
         }
     ],
     "require": {
-        "guzzlehttp/guzzle": "^6.3",
-        "acquia/http-hmac-php": "^4.0",
         "symfony/psr-http-message-bridge": "~1.0",
-        "zendframework/zend-diactoros": "^1.7"
+        "zendframework/zend-diactoros": "^1.7",
+        "siewwp/php-hmac-http": "dev-master"
     },
     "require-dev": {
         "illuminate/http": "~5.3",
