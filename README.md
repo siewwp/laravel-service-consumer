@@ -67,13 +67,14 @@ Refer to [laravel-service-host](https://github.com/siewwp/laravel-service-host) 
 After that, you may register the webhook controller it on `RouteServiceProvider.php` file. 
 
 ```php
-    ...
+<?php
+    // ...
     public function boot()
     {
-        ...
+        // ...
         Route::post(
             'tenant/webhook',
-            '\AccendoLabs\Tenant\Http\Controllers\Webhook\Controller@handleWebhook'
+            '\App\Http\Controllers\InvoiceController@handleWebhook'
         );
     }
     ...
