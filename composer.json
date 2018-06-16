@@ -23,5 +23,7 @@
         "psr-4": {
             "Siewwp\\LaravelServiceConsumer\\": "src/"
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
